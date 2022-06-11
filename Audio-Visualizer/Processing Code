@@ -1,0 +1,40 @@
+import processing.sound.*;
+import ddf.minim.analysis.*;
+import ddf.minim.*;
+
+Minim minim;
+AudioPlayer jingle;
+AudioInput input;
+ddf.minim.analysis.FFT fft;
+
+
+void setup()
+{
+  size(480, 320);
+   
+  noCursor();
+ 
+ 
+  minim = new Minim(this);
+  
+
+  input = minim.getLineIn();
+
+  fft = new ddf.minim.analysis.FFT(input.bufferSize(), input.sampleRate());
+}
+
+void draw()
+{
+  background(0);
+  stroke(255);
+  fill(0,102,153);
+  textSize(40);
+  text("Audio Visualizer",80,60);
+  fft.forward(input.mix);
+ 
+  for(int i = 0; i < fft.specSize(); i++)
+  {
+    fill(250,0,0);
+    ellipse(i,200,7,fft.getBand(i)*10);   
+  } 
+}
